@@ -44,5 +44,6 @@ public class MainActivity extends AppCompatActivity {
     @OnClick({R.id.iv_main_home,R.id.iv_main_invest,R.id.iv_main_me,R.id.iv_main_more})
     public void showTab(View v){
         Toast.makeText(this, "tab", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Fragment", Toast.LENGTH_SHORT).show();
     }
 }
