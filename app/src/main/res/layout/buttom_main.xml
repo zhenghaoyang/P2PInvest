@@ -30,10 +30,12 @@
                 android:background="@drawable/bottom01" />
 
             <TextView
+                android:id="@+id/tv_main_home"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="3dp"
                 android:text="首页"
+                android:textColor="@color/home_back_unselected"
                 android:textSize="16sp" />
 
 
@@ -55,10 +57,12 @@
                 android:background="@drawable/bottom03" />
 
             <TextView
+                android:id="@+id/tv_main_invest"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="3dp"
                 android:text="投资"
+                android:textColor="@color/home_back_unselected"
                 android:textSize="16sp" />
 
 
@@ -80,10 +84,12 @@
                 android:background="@drawable/bottom05" />
 
             <TextView
+                android:id="@+id/tv_main_me"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="3dp"
                 android:text="我的资产"
+                android:textColor="@color/home_back_unselected"
                 android:textSize="16sp" />
 
 
@@ -105,10 +111,12 @@
                 android:background="@drawable/bottom07" />
 
             <TextView
+                android:id="@+id/tv_main_more"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="3dp"
-                android:text="首页"
+                android:text="更多"
+                android:textColor="@color/home_back_unselected"
                 android:textSize="16sp" />
 
 
