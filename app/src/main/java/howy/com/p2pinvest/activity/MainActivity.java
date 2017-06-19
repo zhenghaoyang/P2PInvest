@@ -1,26 +1,34 @@
 package howy.com.p2pinvest.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import howy.com.p2pinvest.R;
+import howy.com.p2pinvest.common.ActivityManager;
 import howy.com.p2pinvest.fragment.HomeFragment;
 import howy.com.p2pinvest.fragment.InvestFragment;
 import howy.com.p2pinvest.fragment.MeFragment;
 import howy.com.p2pinvest.fragment.MoreFragment;
+import howy.com.p2pinvest.util.UIUtils;
 
 public class MainActivity extends FragmentActivity {
 
+    private static final int WHAT_RESET_BACK = 1;
+    private static final String TAG = "Main";
     @Bind(R.id.fl_main)
     FrameLayout flMain;
     @Bind(R.id.iv_main_home)
@@ -49,12 +57,15 @@ public class MainActivity extends FragmentActivity {
     TextView tvMainMore;
     private FragmentTransaction transaction;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActivityManager.getInstance().addActivity(this);
         ButterKnife.bind(this);
         setSelect(0);
+
 
     }
 
@@ -99,7 +110,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 transaction.show(homeFragment);
                 ivMainHome.setImageResource(R.drawable.bottom02);
-                tvMainHome.setTextColor(getResources().getColor(R.color.home_back_selected));
+                tvMainHome.setTextColor(UIUtils.getColor(R.color.home_back_selected));
                 break;
             case 1:
                 if (investFragment == null) {
@@ -108,7 +119,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 transaction.show(investFragment);
                 ivMainInvest.setImageResource(R.drawable.bottom04);
-                tvMainInvest.setTextColor(getResources().getColor(R.color.home_back_selected));
+                tvMainInvest.setTextColor(UIUtils.getColor(R.color.home_back_selected));
                 break;
             case 2:
                 if (meFragment == null) {
@@ -117,7 +128,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 transaction.show(meFragment);
                 ivMainMe.setImageResource(R.drawable.bottom06);
-                tvMainMe.setTextColor(getResources().getColor(R.color.home_back_selected));
+                tvMainMe.setTextColor(UIUtils.getColor(R.color.home_back_selected));
                 break;
             case 3:
                 if (moreFragment == null) {
@@ -126,7 +137,7 @@ public class MainActivity extends FragmentActivity {
                 }
                 transaction.show(moreFragment);
                 ivMainMore.setImageResource(R.drawable.bottom08);
-                tvMainMore.setTextColor(getResources().getColor(R.color.home_back_selected));
+                tvMainMore.setTextColor(UIUtils.getColor(R.color.home_back_selected));
                 break;
         }
         transaction.commit();
@@ -137,10 +148,10 @@ public class MainActivity extends FragmentActivity {
         ivMainInvest.setImageResource(R.drawable.bottom03);
         ivMainMe.setImageResource(R.drawable.bottom05);
         ivMainMore.setImageResource(R.drawable.bottom07);
-        tvMainHome.setTextColor(getResources().getColor(R.color.home_back_unselected));
-        tvMainInvest.setTextColor(getResources().getColor(R.color.home_back_unselected));
-        tvMainMe.setTextColor(getResources().getColor(R.color.home_back_unselected));
-        tvMainMore.setTextColor(getResources().getColor(R.color.home_back_unselected));
+        tvMainHome.setTextColor(UIUtils.getColor(R.color.home_back_unselected));
+        tvMainInvest.setTextColor(UIUtils.getColor(R.color.home_back_unselected));
+        tvMainMe.setTextColor(UIUtils.getColor(R.color.home_back_unselected));
+        tvMainMore.setTextColor(UIUtils.getColor(R.color.home_back_unselected));
 
     }
 
@@ -160,4 +171,36 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    private boolean flag = true;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case WHAT_RESET_BACK:
+                    flag = true;
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && flag) {
+            Toast.makeText(this, "再点击一次，退出当前应用", Toast.LENGTH_SHORT).show();
+            flag = false;
+            handler.sendEmptyMessageDelayed(WHAT_RESET_BACK, 2000);
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //方式一：
+        handler.removeMessages(WHAT_RESET_BACK);//移除指定id的所有的消息
+        //方式二：移除所有的未被执行的消息
+        handler.removeCallbacksAndMessages(null);
+    }
 }
+

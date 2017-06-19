@@ -12,6 +12,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import howy.com.p2pinvest.R;
+import howy.com.p2pinvest.util.UIUtils;
 
 /**
  * Created by Howy on 2017/6/12.
@@ -29,7 +30,7 @@ public class MeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = View.inflate(getActivity(), R.layout.fragment_me, null);
+        View view = UIUtils.getView(R.layout.fragment_me);
         ButterKnife.bind(this, view);
         initTitle();
         return view;
