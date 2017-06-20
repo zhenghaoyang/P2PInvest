@@ -3,6 +3,7 @@ package howy.com.p2pinvest.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.squareup.picasso.Picasso;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
@@ -46,6 +49,9 @@ public class HomeFragment extends Fragment {
     TextView tvHomeProduct;
     @Bind(R.id.tv_home_yearrate)
     TextView tvHomeYearrate;
+    @Bind(R.id.cp_home_indicator)
+    CirclePageIndicator cpHomeIndicator;
+    private Index index;
 
     @Nullable
     @Override
@@ -61,7 +67,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initData() {
-        final Index index = new Index();
+        index = new Index();
 
         AsyncHttpClient client = new AsyncHttpClient();
         String url = AppNetConfig.INDEX;
@@ -82,6 +88,11 @@ public class HomeFragment extends Fragment {
                 //更新页面数据
                 tvHomeProduct.setText(product.name);
                 tvHomeYearrate.setText(product.yearRate + "%");
+
+                //设置ViewPager
+                vpHome.setAdapter(new MyAdatper());
+                //设置小圆圈显示
+                cpHomeIndicator.setViewPager(vpHome);
             }
 
             @Override
@@ -103,4 +114,36 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+    class MyAdatper extends PagerAdapter {
+        @Override
+        public int getCount() {
+            List<Image> images = index.images;
+            return images == null ? 0 : images.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView imageView = new ImageView(getActivity());
+            //1显示图片
+            String imageUrl = index.images.get(position).IMAURL;
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            Picasso.with(getActivity()).load(imageUrl).into(imageView);
+            //2添加到容器里
+            container.addView(imageView);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+    }
+
+
 }

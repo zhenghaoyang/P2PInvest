@@ -25,12 +25,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/cp_home_indicator"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|bottom"
-                    android:layout_marginBottom="10dp"
-                    android:text="小圈圈" />
+                    android:layout_marginBottom="10dp" />
             </FrameLayout>
 
 

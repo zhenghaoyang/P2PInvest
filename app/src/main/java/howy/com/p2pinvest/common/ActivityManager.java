@@ -52,7 +52,7 @@ public class ActivityManager {
 //        方式一
 //        Activity activity = activityStack.get(activityStack.size() - 1);
 //        activity.finish();
-//        activityStack.remove(activity);
+//        activityStack.remove(activityStack.size() - 1);
 
 //        方式二
         Activity activity = activityStack.lastElement();

@@ -1,9 +1,13 @@
 package howy.com.p2pinvest.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,7 +47,45 @@ public class WelcomeActivity extends AppCompatActivity {
 //        if (str.equals("abc")) {
 //            Log.d("TAG", "onCreate: Str == abc ");
 //        }
+        //提供启动动画
+        setAnimation();
 
+    }
 
+    private Handler handler = new Handler();
+
+    private void setAnimation() {
+        AlphaAnimation animation = new AlphaAnimation(0, 1);
+        animation.setDuration(2000);
+        animation.setInterpolator(new AccelerateInterpolator());
+        //方式一：
+//        animation.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+        //方式二：使用handler
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 3000);
+        rlWelcome.startAnimation(animation);
     }
 }
