@@ -10,7 +10,7 @@ public class AppNetConfig {
 //    public static final String IPADDRESS = "182.92.5.3";
 //    public static final String BASE_URL = "http://" + IPADDRESS + ":8081/P2PInvest/";
 
-    public static final String IPADDRESS = "117.31.174.199";
+    public static final String IPADDRESS = "222.78.84.97";
 
     public static final String BASE_URL = "http://" + IPADDRESS + ":8080/P2PInvest/";
 
