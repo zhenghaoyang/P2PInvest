@@ -2,6 +2,7 @@ package howy.com.p2pinvest.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -32,6 +33,7 @@ import howy.com.p2pinvest.bean.Image;
 import howy.com.p2pinvest.bean.Index;
 import howy.com.p2pinvest.bean.Product;
 import howy.com.p2pinvest.common.AppNetConfig;
+import howy.com.p2pinvest.ui.RoundProgress;
 import howy.com.p2pinvest.util.UIUtils;
 
 import static android.content.ContentValues.TAG;
@@ -53,9 +55,12 @@ public class HomeFragment extends Fragment {
     Banner banner;
     @Bind(R.id.tv_home_product)
     TextView tvHomeProduct;
+    @Bind(R.id.roundPro_home)
+    RoundProgress roundProHome;
     @Bind(R.id.tv_home_yearrate)
     TextView tvHomeYearrate;
     private Index index;
+    private int currentProgress;
 
     @Nullable
     @Override
@@ -92,6 +97,20 @@ public class HomeFragment extends Fragment {
                 //更新页面数据
                 tvHomeProduct.setText(product.name);
                 tvHomeYearrate.setText(product.yearRate + "%");
+                //获取进度
+                currentProgress = Integer.parseInt(index.product.progress);
+                roundProHome.setProgress(currentProgress);
+                //在分线程中，实现进度的动态变化
+                new Thread() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i <= currentProgress; i++) {
+                            roundProHome.setProgress(i);
+                            SystemClock.sleep(30);
+                            roundProHome.postInvalidate();
+                        }
+                    }
+                }.start();
 
                 //设置banner样式
                 banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
@@ -101,7 +120,7 @@ public class HomeFragment extends Fragment {
                 ArrayList<String> imageUrls = new ArrayList<String>(index.images.size());
                 for (int i = 0; i < index.images.size(); i++) {
                     imageUrls.add(index.images.get(i).IMAURL);
-                    Log.d(TAG, "onSuccess: "  + index.images.get(i).IMAURL);
+                    Log.d(TAG, "onSuccess: " + index.images.get(i).IMAURL);
                 }
                 //设置图片集合
                 banner.setImages(imageUrls);

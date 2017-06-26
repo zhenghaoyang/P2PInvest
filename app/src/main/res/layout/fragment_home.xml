@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:atguigu="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <include layout="@layout/common_title"></include>
 
-    <ScrollView
+    <howy.com.p2pinvest.ui.MyScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -86,11 +87,19 @@
 
             </LinearLayout>
 
-            <Button
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+            <howy.com.p2pinvest.ui.RoundProgress
+                android:id="@+id/roundPro_home"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center"
-                android:text="我是圆形进度条" />
+                android:layout_marginTop="10dp"
+                atguigu:max="100"
+                atguigu:progress="70"
+                atguigu:roundColor="@color/more_text"
+                atguigu:roundProgressColor="@color/round_red_common"
+                atguigu:roundWith="10dp"
+                atguigu:textColor="@color/title_back"
+                atguigu:textSize="20dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -137,5 +146,5 @@
                 android:textColor="@color/home_back_unselected" />
         </LinearLayout>
 
-    </ScrollView>
+    </howy.com.p2pinvest.ui.MyScrollView>
 </LinearLayout>
